@@ -1,0 +1,52 @@
+﻿<Window x:Class="TourAgency.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TourAgency"
+        mc:Ignorable="d"
+        Title="Панель управления TourAgency" 
+        Height="600" Width="1024"
+        MinHeight="600" MinWidth="1024"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Туры">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <Button Name="BtnAddTour" Content="Добавить тур" Margin="0,0,8,0" Click="BtnAddTourClick"/>
+                        <Button Name="BtnEditTour" Content="Редактировать" Margin="0,0,8,0" Click="BtnEditTourClick"/>
+                        <Button Name="BtnDeleteTour" Content="Удалить" Margin="0,0,8,0" Click="BtnDeleteTourClick"/>
+                        <Button Name="BtnRefreshTours" Content="Обновить" Style="{StaticResource SecondaryButton}" Click="BtnRefreshToursClick"/>
+                    </StackPanel>
+                    <DataGrid Name="DgTours" Grid.Row="1" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Бронирования">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <Button Name="BtnAddBooking" Content="Добавить бронь" Margin="0,0,8,0" Click="BtnAddBookingClick"/>
+                        <Button Name="BtnEditBooking" Content="Редактировать" Margin="0,0,8,0" Click="BtnEditBookingClick"/>
+                        <Button Name="BtnDeleteBooking" Content="Удалить" Margin="0,0,8,0" Click="BtnDeleteBookingClick"/>
+                        <Button Name="BtnRefreshBookings" Content="Обновить" Style="{StaticResource SecondaryButton}" Click="BtnRefreshBookingsClick"/>
+                    </StackPanel>
+                    <DataGrid Name="DgBookings" Grid.Row="1" IsReadOnly="True" SelectionMode="Single">
+                        <DataGrid.Columns>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
