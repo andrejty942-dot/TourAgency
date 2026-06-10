@@ -26,10 +26,12 @@ namespace TourAgency
         }
         private void BtnSaveClick(object sender, RoutedEventArgs e)
         {
-            bool hasErrors = false;
-            string errorMessage = "";
+            try
+            {
+                bool hasErrors = false;
+                string errorMessage = "";
 
-            // Сброс цветов всех полей
+                // Сброс цветов всех полей
             TxtName.Background = new SolidColorBrush(Colors.White);
             TxtName.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
             TxtCountry.Background = new SolidColorBrush(Colors.White);
@@ -97,6 +99,24 @@ namespace TourAgency
                 hasErrors = true;
             }
 
+            // Проверка максимальной длительности
+            if (int.TryParse(TxtDuration.Text, out int maxDuration) && maxDuration > 365)
+            {
+                TxtDuration.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtDuration.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Длительность тура не может превышать 365 дней\n";
+                hasErrors = true;
+            }
+
+            // Проверка максимальной цены
+            if (decimal.TryParse(TxtPrice.Text, out decimal maxPrice) && maxPrice > 10000000)
+            {
+                TxtPrice.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtPrice.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Цена не может превышать 10 000 000\n";
+                hasErrors = true;
+            }
+
             // Если есть ошибки, показываем сообщение и выходим
             if (hasErrors)
             {
@@ -112,6 +132,11 @@ namespace TourAgency
             EditedTour.Hotel = TxtHotel.Text.Trim();
             DialogResult = true;
             Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private void BtnCancelClick(object sender, RoutedEventArgs e)
         {

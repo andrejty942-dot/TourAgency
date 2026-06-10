@@ -24,6 +24,14 @@ namespace TourAgency
         {
             string login = Name.Text;
             string password = Password.Password;
+            
+            // Проверка на пустые поля
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Введите логин и пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            
             if (login == "agent" && password == "agent")
             {
                 MainWindow mainWindow = new MainWindow();

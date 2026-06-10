@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -22,14 +23,20 @@ namespace TourAgency
         }
         private void BtnAddClick(object sender, RoutedEventArgs e)
         {
-            bool hasErrors = false;
-            string errorMessage = "";
+            try
+            {
+                bool hasErrors = false;
+                string errorMessage = "";
 
-            // Сброс цветов всех полей
+                // Сброс цветов всех полей
             TxtClientFio.Background = new SolidColorBrush(Colors.White);
             TxtClientFio.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
             TxtPeopleCount.Background = new SolidColorBrush(Colors.White);
             TxtPeopleCount.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            TxtPhone.Background = new SolidColorBrush(Colors.White);
+            TxtPhone.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            TxtEmail.Background = new SolidColorBrush(Colors.White);
+            TxtEmail.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
 
             // Проверка ФИО
             if (string.IsNullOrWhiteSpace(TxtClientFio.Text))
@@ -68,6 +75,55 @@ namespace TourAgency
                 hasErrors = true;
             }
 
+            // Проверка статуса
+            if (CmbStatus.SelectedItem == null)
+            {
+                errorMessage += "• Выберите статус бронирования\n";
+                hasErrors = true;
+            }
+
+            // Проверка телефона (если заполнен)
+            if (!string.IsNullOrWhiteSpace(TxtPhone.Text))
+            {
+                string phonePattern = @"^[\d\s\+\-\(\)]+$";
+                if (!Regex.IsMatch(TxtPhone.Text.Trim(), phonePattern))
+                {
+                    TxtPhone.Background = new SolidColorBrush(Colors.IndianRed);
+                    TxtPhone.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                    errorMessage += "• Введите корректный номер телефона (только цифры, +, -, (), пробелы)\n";
+                    hasErrors = true;
+                }
+            }
+
+            // Проверка email (если заполнен)
+            if (!string.IsNullOrWhiteSpace(TxtEmail.Text))
+            {
+                string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                if (!Regex.IsMatch(TxtEmail.Text.Trim(), emailPattern))
+                {
+                    TxtEmail.Background = new SolidColorBrush(Colors.IndianRed);
+                    TxtEmail.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                    errorMessage += "• Введите корректный email адрес\n";
+                    hasErrors = true;
+                }
+            }
+
+            // Проверка максимального количества человек
+            if (int.TryParse(TxtPeopleCount.Text, out int maxPeopleCheck) && maxPeopleCheck > 100)
+            {
+                TxtPeopleCount.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtPeopleCount.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Количество человек не может превышать 100\n";
+                hasErrors = true;
+            }
+
+            // Проверка даты вылета (не более 2 лет вперёд)
+            if (DpDepartureDate.SelectedDate.HasValue && DpDepartureDate.SelectedDate.Value > DateTime.Now.AddYears(2))
+            {
+                errorMessage += "• Дата вылета не может быть более чем через 2 года\n";
+                hasErrors = true;
+            }
+
             // Если есть ошибки, показываем сообщение и выходим
             if (hasErrors)
             {
@@ -91,6 +147,11 @@ namespace TourAgency
             };
             DialogResult = true;
             Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private void BtnCancelClick(object sender, RoutedEventArgs e)
         {
