@@ -1,12 +1,11 @@
 using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using TourAgency.Models;
 
 namespace TourAgency
 {
-    /// <summary>
-    /// Логика взаимодействия для AddTourWindow.xaml
-    /// </summary>
     public partial class AddTourWindow : Window
     {
         public Tour NewTour { get; set; }
@@ -15,47 +14,86 @@ namespace TourAgency
         {
             InitializeComponent();
         }
-
         private void BtnAddClick(object sender, RoutedEventArgs e)
         {
-            // Валидация полей
+            bool hasErrors = false;
+            string errorMessage = "";
+
+            // Сброс цветов всех полей
+            TxtName.Background = new SolidColorBrush(Colors.White);
+            TxtName.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            TxtCountry.Background = new SolidColorBrush(Colors.White);
+            TxtCountry.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            TxtCity.Background = new SolidColorBrush(Colors.White);
+            TxtCity.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            TxtDuration.Background = new SolidColorBrush(Colors.White);
+            TxtDuration.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            TxtPrice.Background = new SolidColorBrush(Colors.White);
+            TxtPrice.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+            TxtHotel.Background = new SolidColorBrush(Colors.White);
+            TxtHotel.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+
+            // Проверка названия
             if (string.IsNullOrWhiteSpace(TxtName.Text))
             {
-                MessageBox.Show("Введите название тура", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                TxtName.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtName.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Введите название тура\n";
+                hasErrors = true;
             }
 
+            // Проверка страны
             if (string.IsNullOrWhiteSpace(TxtCountry.Text))
             {
-                MessageBox.Show("Введите страну", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                TxtCountry.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtCountry.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Введите страну\n";
+                hasErrors = true;
             }
 
+            // Проверка города
             if (string.IsNullOrWhiteSpace(TxtCity.Text))
             {
-                MessageBox.Show("Введите город", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                TxtCity.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtCity.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Введите город\n";
+                hasErrors = true;
             }
 
+            // Проверка длительности
             if (!int.TryParse(TxtDuration.Text, out int duration) || duration <= 0)
             {
-                MessageBox.Show("Введите корректную длительность (целое число больше 0)", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                TxtDuration.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtDuration.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Введите корректную длительность (целое число больше 0)\n";
+                hasErrors = true;
             }
 
+            // Проверка цены
             if (!decimal.TryParse(TxtPrice.Text, out decimal price) || price <= 0)
             {
-                MessageBox.Show("Введите корректную цену (число больше 0)", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                TxtPrice.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtPrice.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Введите корректную цену (число больше 0)\n";
+                hasErrors = true;
             }
 
+            // Проверка гостиницы
             if (string.IsNullOrWhiteSpace(TxtHotel.Text))
             {
-                MessageBox.Show("Введите название гостиницы", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TxtHotel.Background = new SolidColorBrush(Colors.IndianRed);
+                TxtHotel.BorderBrush = new SolidColorBrush(Colors.DarkRed);
+                errorMessage += "• Введите название гостиницы\n";
+                hasErrors = true;
+            }
+
+            // Если есть ошибки, показываем сообщение и выходим
+            if (hasErrors)
+            {
+                MessageBox.Show(errorMessage.TrimEnd('\n'), "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Создание нового тура
             NewTour = new Tour
             {
                 Name = TxtName.Text.Trim(),
@@ -65,30 +103,66 @@ namespace TourAgency
                 Price = price,
                 Hotel = TxtHotel.Text.Trim()
             };
-
             DialogResult = true;
             Close();
         }
-
         private void BtnCancelClick(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             Close();
         }
-
-        private void TxtHotel_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
-        }
-
         private void Loadedwin(object sender, RoutedEventArgs e)
         {
-            TxtHotel.Text = NewTour.Hotel;
-            
-            
-            TxtCity.Text = NewTour.City;
-            TxtCountry.Text = NewTour.Country;
-            TxtName.Text = NewTour.Name;
+            if (NewTour != null)
+            {
+                TxtHotel.Text = NewTour.Hotel;
+                TxtCity.Text = NewTour.City;
+                TxtCountry.Text = NewTour.Country;
+                TxtName.Text = NewTour.Name;
+            }
+        }
+
+        private void NameLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (TxtName.Text.Length >= 200)
+            {
+                e.Handled = true;
+                MessageBox.Show("Максимальная длина названия тура - 200 символов", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void CountryLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (TxtCountry.Text.Length >= 100)
+            {
+                e.Handled = true;
+                MessageBox.Show("Максимальная длина названия страны - 100 символов", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void CityLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (TxtCity.Text.Length >= 100)
+            {
+                e.Handled = true;
+                MessageBox.Show("Максимальная длина названия города - 100 символов", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void HotelLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (TxtHotel.Text.Length >= 200)
+            {
+                e.Handled = true;
+                MessageBox.Show("Максимальная длина названия гостиницы - 200 символов", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void ResetFieldColor(object sender, TextChangedEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+            textBox.Background = new SolidColorBrush(Colors.White);
+            textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
         }
     }
 }

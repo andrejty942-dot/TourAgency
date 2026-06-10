@@ -18,11 +18,11 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,20">
             <StackPanel>
                 <TextBlock Text="Название тура"/>
-                <TextBox x:Name="TxtName" Margin="0,0,0,15"/>
+                <TextBox x:Name="TxtName" Margin="0,0,0,15" PreviewTextInput="NameLength" MaxLength="200" TextChanged="ResetFieldColor"/>
                 <TextBlock Text="Страна"/>
-                <TextBox x:Name="TxtCountry" Margin="0,0,0,15"/>
+                <TextBox x:Name="TxtCountry" Margin="0,0,0,15" PreviewTextInput="CountryLength" MaxLength="100" TextChanged="ResetFieldColor"/>
                 <TextBlock Text="Город"/>
-                <TextBox x:Name="TxtCity" Margin="0,0,0,15"/>
+                <TextBox x:Name="TxtCity" Margin="0,0,0,15" PreviewTextInput="CityLength" MaxLength="100" TextChanged="ResetFieldColor"/>
                 <Grid Margin="0,0,0,15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -31,15 +31,15 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <TextBlock Text="Длительность (дней)"/>
-                        <TextBox x:Name="TxtDuration"/>
+                        <TextBox x:Name="TxtDuration" TextChanged="ResetFieldColor"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Цена"/>
-                        <TextBox x:Name="TxtPrice"/>
+                        <TextBox x:Name="TxtPrice" TextChanged="ResetFieldColor"/>
                     </StackPanel>
                 </Grid>
                 <TextBlock Text="Гостиница"/>
-                <TextBox x:Name="TxtHotel" TextChanged="TxtHotel_TextChanged"/>
+                <TextBox x:Name="TxtHotel" PreviewTextInput="HotelLength" MaxLength="200" TextChanged="ResetFieldColor"/>
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.Row="1">

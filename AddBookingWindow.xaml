@@ -18,11 +18,11 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,20">
             <StackPanel>
                 <TextBlock Text="ФИО клиента"/>
-                <TextBox x:Name="TxtClientFio" Margin="0,0,0,15"/>
+                <TextBox x:Name="TxtClientFio" Margin="0,0,0,15" PreviewTextInput="Fioleght" MaxLength="100" TextChanged="ResetFieldColor"/>
                 <TextBlock Text="Тур"/>
                 <ComboBox x:Name="CmbTour" Margin="0,0,0,15" DisplayMemberPath="Name"/>
                 <TextBlock Text="Количество человек"/>
-                <TextBox x:Name="TxtPeopleCount" Margin="0,0,0,15"/>
+                <TextBox x:Name="TxtPeopleCount" Margin="0,0,0,15" TextChanged="ResetFieldColor"/>
                 <TextBlock Text="Дата вылета"/>
                 <DatePicker x:Name="DpDepartureDate" Margin="0,0,0,15"/>
                 <Grid Margin="0,0,0,15">
@@ -33,11 +33,11 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <TextBlock Text="Телефон"/>
-                        <TextBox x:Name="TxtPhone"/>
+                        <TextBox x:Name="TxtPhone" PreviewTextInput="PhoneLength" MaxLength="20" TextChanged="ResetFieldColor"/>
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Email"/>
-                        <TextBox x:Name="TxtEmail"/>
+                        <TextBox x:Name="TxtEmail" PreviewTextInput="EmailLength" MaxLength="100" TextChanged="ResetFieldColor"/>
                     </StackPanel>
                 </Grid>
                 <TextBlock Text="Статус"/>

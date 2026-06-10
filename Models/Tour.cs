@@ -11,14 +11,14 @@ namespace TourAgency.Models
         public int Duration { get; set; }
         public decimal Price { get; set; }
         public string Hotel { get; set; }
-        public string Description { get; set; }
+
         public Tour()
         {
             Name = string.Empty;
             Country = string.Empty;
             City = string.Empty;
             Hotel = string.Empty;
-            Description = string.Empty;
+
         }
     }
 }

@@ -105,7 +105,6 @@ namespace TourAgency
             {
                 _tours.Remove(selectedTour);
                 MessageBox.Show("Тур удалён", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-                _nextTourId = _nextTourId-1;
             }
         }
         private void BtnRefreshToursClick(object sender, RoutedEventArgs e)
