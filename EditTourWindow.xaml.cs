@@ -6,15 +6,35 @@ using TourAgency.Models;
 
 namespace TourAgency
 {
+    /// <summary>
+    /// Окно редактирования существующего тура
+    /// Загружает данные выбранного тура и позволяет изменить их
+    /// Использует ту же валидацию, что и AddTourWindow
+    /// </summary>
     public partial class EditTourWindow : Window
     {
+        /// <summary>
+        /// Редактируемый тур (ссылка на объект из коллекции)
+        /// Изменения применяются непосредственно к этому объекту
+        /// </summary>
         public Tour EditedTour { get; private set; }
+
+        /// <summary>
+        /// Конструктор окна редактирования тура
+        /// Принимает тур для редактирования и загружает его данные в поля
+        /// </summary>
+        /// <param name="tour">Тур для редактирования</param>
         public EditTourWindow(Tour tour)
         {
             InitializeComponent();
             EditedTour = tour;
             LoadTourData();
         }
+
+        /// <summary>
+        /// Загрузка данных тура в поля формы
+        /// Заполняет все текстовые поля значениями из EditedTour
+        /// </summary>
         private void LoadTourData()
         {
             TxtName.Text = EditedTour.Name;
@@ -24,6 +44,14 @@ namespace TourAgency
             TxtPrice.Text = EditedTour.Price.ToString();
             TxtHotel.Text = EditedTour.Hotel;
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Сохранить"
+        /// Выполняет валидацию и применяет изменения к объекту тура
+        /// Включает try-catch для обработки исключений
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnSaveClick(object sender, RoutedEventArgs e)
         {
             try
@@ -123,12 +151,24 @@ namespace TourAgency
                 MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Отмена"
+        /// Закрывает окно без сохранения изменений
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnCancelClick(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             Close();
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия тура (макс. 200 символов)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void NameLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtName.Text.Length >= 200)
@@ -138,6 +178,11 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия страны (макс. 100 символов)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void CountryLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtCountry.Text.Length >= 100)
@@ -147,6 +192,11 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия города (макс. 100 символов)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void CityLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtCity.Text.Length >= 100)
@@ -156,6 +206,11 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия гостиницы (макс. 200 символов)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void HotelLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtHotel.Text.Length >= 200)
@@ -165,6 +220,12 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Сброс красной подсветки поля при начале редактирования
+        /// Восстанавливает стандартный цвет фона и рамки
+        /// </summary>
+        /// <param name="sender">Источник события (TextBox)</param>
+        /// <param name="e">Аргументы события изменения текста</param>
         private void ResetFieldColor(object sender, TextChangedEventArgs e)
         {
             var textBox = (TextBox)sender;

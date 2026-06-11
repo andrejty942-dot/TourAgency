@@ -7,17 +7,48 @@ using TourAgency.Models;
 
 namespace TourAgency
 {
+    /// <summary>
+    /// Главное окно приложения для управления турами и бронированиями
+    /// Содержит две вкладки: "Туры" и "Бронирования"
+    /// Использует ObservableCollection для автоматического обновления DataGrid
+    /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Коллекция туров для отображения и управления
+        /// ObservableCollection автоматически уведомляет UI об изменениях
+        /// </summary>
         public ObservableCollection<Tour> _tours;
+
+        /// <summary>
+        /// Коллекция бронирований для отображения и управления
+        /// </summary>
         private ObservableCollection<Booking> _bookings;
+
+        /// <summary>
+        /// Счетчик для генерации уникальных ID туров
+        /// </summary>
         private int _nextTourId = 1;
+
+        /// <summary>
+        /// Счетчик для генерации уникальных ID бронирований
+        /// </summary>
         private int _nextBookingId = 1;
+
+        /// <summary>
+        /// Конструктор главного окна
+        /// Инициализирует компоненты и загружает данные
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             InitializeData();
         }
+
+        /// <summary>
+        /// Инициализация коллекций данных и привязка к DataGrid
+        /// Создает пустые коллекции и добавляет примеры туров
+        /// </summary>
         private void InitializeData()
         {
             _tours = new ObservableCollection<Tour>();
@@ -26,6 +57,11 @@ namespace TourAgency
             DgTours.ItemsSource = _tours;
             DgBookings.ItemsSource = _bookings;
         }
+
+        /// <summary>
+        /// Добавление примеров туров для демонстрации
+        /// Создает 3 тура: Турция, Италия, Австрия
+        /// </summary>
         private void AddSampleTours()
         {
             _tours.Add(new Tour
@@ -59,6 +95,13 @@ namespace TourAgency
                 Hotel = "Alpine Resort"
             });
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Добавить тур"
+        /// Открывает окно добавления нового тура
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnAddTourClick(object sender, RoutedEventArgs e)
         {
             AddTourWindow addWindow = new AddTourWindow();
@@ -71,6 +114,14 @@ namespace TourAgency
                 MessageBox.Show($"Тур \"{newTour.Name}\" успешно добавлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Редактировать тур"
+        /// Открывает окно редактирования выбранного тура
+        /// Проверяет, выбран ли тур перед открытием окна
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnEditTourClick(object sender, RoutedEventArgs e)
         {
             var selectedTour = DgTours.SelectedItem as Tour;
@@ -86,6 +137,14 @@ namespace TourAgency
                 MessageBox.Show($"Тур \"{selectedTour.Name}\" успешно обновлён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Удалить тур"
+        /// Проверяет наличие связанных бронирований и запрашивает подтверждение
+        /// Защита от удаления туров с активными бронированиями
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnDeleteTourClick(object sender, RoutedEventArgs e)
         {
             var selectedTour = DgTours.SelectedItem as Tour;
@@ -107,11 +166,25 @@ namespace TourAgency
                 MessageBox.Show("Тур удалён", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Обновить список туров"
+        /// Принудительно обновляет отображение DataGrid
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnRefreshToursClick(object sender, RoutedEventArgs e)
         {
             DgTours.Items.Refresh();
             MessageBox.Show($"Список туров обновлён. Всего туров: {_tours.Count}", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Добавить бронирование"
+        /// Проверяет наличие туров перед открытием окна добавления
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnAddBookingClick(object sender, RoutedEventArgs e)
         {
             if (_tours.Count == 0)
@@ -128,6 +201,14 @@ namespace TourAgency
                 MessageBox.Show($"Бронирование для \"{newBooking.ClientFio}\" успешно создано!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Редактировать бронирование"
+        /// Открывает окно редактирования выбранного бронирования
+        /// Проверяет, выбрано ли бронирование перед открытием окна
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnEditBookingClick(object sender, RoutedEventArgs e)
         {
             var selectedBooking = DgBookings.SelectedItem as Booking;
@@ -143,6 +224,13 @@ namespace TourAgency
                 MessageBox.Show($"Бронирование для \"{selectedBooking.ClientFio}\" успешно обновлено!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Удалить бронирование"
+        /// Запрашивает подтверждение перед удалением
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnDeleteBookingClick(object sender, RoutedEventArgs e)
         {
             var selectedBooking = DgBookings.SelectedItem as Booking;
@@ -158,6 +246,13 @@ namespace TourAgency
                 MessageBox.Show("Бронирование удалено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Обновить список бронирований"
+        /// Принудительно обновляет отображение DataGrid
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnRefreshBookingsClick(object sender, RoutedEventArgs e)
         {
             DgBookings.Items.Refresh();
@@ -165,6 +260,12 @@ namespace TourAgency
         }
 
 
+        /// <summary>
+        /// Обработчик двойного клика по туру в DataGrid
+        /// Открывает окно редактирования выбранного тура
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события мыши</param>
         private void BtnEditTourClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var selectedTour = DgTours.SelectedItem as Tour;
@@ -178,6 +279,12 @@ namespace TourAgency
 
 
 
+        /// <summary>
+        /// Обработчик двойного клика по бронированию в DataGrid
+        /// Открывает окно редактирования выбранного бронирования
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события мыши</param>
         private void EditDoubleclick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var selectedBooking = DgBookings.SelectedItem as Booking;

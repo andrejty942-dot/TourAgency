@@ -9,10 +9,31 @@ using TourAgency.Models;
 
 namespace TourAgency
 {
+    /// <summary>
+    /// Окно редактирования существующего бронирования
+    /// Загружает данные выбранного бронирования и позволяет изменить их
+    /// Использует ту же валидацию, что и AddBookingWindow (email, телефон, даты, количество)
+    /// Поддерживает автоматический пересчёт общей стоимости при изменении тура или количества человек
+    /// </summary>
     public partial class EditBookingWindow : Window
     {
+        /// <summary>
+        /// Редактируемое бронирование (ссылка на объект из коллекции)
+        /// Изменения применяются непосредственно к этому объекту
+        /// </summary>
         public Booking EditedBooking { get; private set; }
+
+        /// <summary>
+        /// Список доступных туров для выбора
+        /// </summary>
         private List<Tour> _tours;
+
+        /// <summary>
+        /// Конструктор окна редактирования бронирования
+        /// Принимает бронирование для редактирования и список туров
+        /// </summary>
+        /// <param name="booking">Бронирование для редактирования</param>
+        /// <param name="tours">Список доступных туров</param>
         public EditBookingWindow(Booking booking, List<Tour> tours)
         {
             InitializeComponent();
@@ -21,6 +42,12 @@ namespace TourAgency
             CmbTour.ItemsSource = _tours;
             LoadBookingData();
         }
+
+        /// <summary>
+        /// Загрузка данных бронирования в поля формы
+        /// Заполняет все поля значениями из EditedBooking
+        /// Устанавливает выбранный тур и статус в ComboBox
+        /// </summary>
         private void LoadBookingData()
         {
             TxtClientFio.Text = EditedBooking.ClientFio;
@@ -42,14 +69,30 @@ namespace TourAgency
                 }
             }
         }
+
+        /// <summary>
+        /// Обработчик изменения выбранного тура
+        /// Пересчитывает общую стоимость при выборе другого тура
+        /// </summary>
         private void CmbTour_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RecalculateTotalPrice();
         }
+
+        /// <summary>
+        /// Обработчик изменения количества человек
+        /// Пересчитывает общую стоимость при изменении количества
+        /// </summary>
         private void TxtPeopleCount_TextChanged(object sender, TextChangedEventArgs e)
         {
             RecalculateTotalPrice();
         }
+
+        /// <summary>
+        /// Пересчёт общей стоимости бронирования
+        /// Формула: TotalPrice = selectedTour.Price × peopleCount
+        /// Вызывается автоматически при изменении тура или количества человек
+        /// </summary>
         private void RecalculateTotalPrice()
         {
             if (CmbTour.SelectedItem is Tour selectedTour && 
@@ -59,6 +102,14 @@ namespace TourAgency
                 EditedBooking.TotalPrice = selectedTour.Price * peopleCount;
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Сохранить"
+        /// Выполняет валидацию и применяет изменения к объекту бронирования
+        /// Включает try-catch для обработки исключений
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnSaveClick(object sender, RoutedEventArgs e)
         {
             try
@@ -178,11 +229,24 @@ namespace TourAgency
                 MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Отмена"
+        /// Закрывает окно без сохранения изменений
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnCancelClick(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             Close();
         }
+
+        /// <summary>
+        /// Проверка ограничения длины ФИО клиента (макс. 100 символов)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void Fioleght(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtClientFio.Text.Length >= 100)
@@ -192,6 +256,11 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины телефона (макс. 20 символов)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void PhoneLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtPhone.Text.Length >= 20)
@@ -201,6 +270,11 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины email (макс. 100 символов)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void EmailLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtEmail.Text.Length >= 100)
@@ -210,6 +284,12 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Сброс красной подсветки поля при начале редактирования
+        /// Восстанавливает стандартный цвет фона и рамки
+        /// </summary>
+        /// <param name="sender">Источник события (TextBox)</param>
+        /// <param name="e">Аргументы события изменения текста</param>
         private void ResetFieldColor(object sender, TextChangedEventArgs e)
         {
             var selectedTour = (Tour)CmbTour.SelectedItem;

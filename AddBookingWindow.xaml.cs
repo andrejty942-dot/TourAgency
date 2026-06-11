@@ -10,9 +10,24 @@ using TourAgency.Models;
 
 namespace TourAgency
 {
+    /// <summary>
+    /// Окно добавления нового бронирования
+    /// Содержит форму с валидацией всех полей, включая regex для email и телефона
+    /// Автоматически рассчитывает общую стоимость (цена тура × количество человек)
+    /// </summary>
     public partial class AddBookingWindow : Window
     {
+        /// <summary>
+        /// Новое бронирование, создаваемое в этом окне
+        /// Передается обратно в MainWindow при успешном добавлении
+        /// </summary>
         public Booking NewBooking { get; private set; }
+
+        /// <summary>
+        /// Конструктор окна добавления бронирования
+        /// Инициализирует список туров и устанавливает дату вылета по умолчанию (+7 дней)
+        /// </summary>
+        /// <param name="_tours">Коллекция доступных туров для выбора</param>
         public AddBookingWindow(ObservableCollection<Tour> _tours)
         {
             InitializeComponent();
@@ -20,6 +35,15 @@ namespace TourAgency
             CmbTour.ItemsSource = _tours;
             DpDepartureDate.SelectedDate = DateTime.Now.AddDays(7);
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Добавить"
+        /// Выполняет полную валидацию всех полей и создает объект Booking
+        /// Включает проверки: обязательные поля, regex email/телефона, диапазоны дат, максимальные значения
+        /// Включает try-catch для обработки исключений
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnAddClick(object sender, RoutedEventArgs e)
         {
             try
@@ -142,12 +166,25 @@ namespace TourAgency
                 MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Отмена"
+        /// Закрывает окно без сохранения данных
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnCancelClick(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             Close();
         }
 
+        /// <summary>
+        /// Проверка ограничения длины ФИО клиента (макс. 100 символов)
+        /// Вызывается при вводе текста в поле TxtClientFio
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void Fioleght(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtClientFio.Text.Length >= 100)
@@ -157,6 +194,12 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины телефона (макс. 20 символов)
+        /// Вызывается при вводе текста в поле TxtPhone
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void PhoneLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtPhone.Text.Length >= 20)
@@ -166,6 +209,12 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины email (макс. 100 символов)
+        /// Вызывается при вводе текста в поле TxtEmail
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void EmailLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtEmail.Text.Length >= 100)
@@ -175,6 +224,13 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Сброс красной подсветки поля при начале редактирования
+        /// Восстанавливает стандартный цвет фона и рамки
+        /// Вызывается автоматически при изменении текста в любом поле
+        /// </summary>
+        /// <param name="sender">Источник события (TextBox)</param>
+        /// <param name="e">Аргументы события изменения текста</param>
         private void ResetFieldColor(object sender, TextChangedEventArgs e)
         {
             var selectedTour = (Tour)CmbTour.SelectedItem;

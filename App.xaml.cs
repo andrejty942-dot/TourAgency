@@ -9,7 +9,9 @@ using System.Windows;
 namespace TourAgency
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// Главный класс приложения TourAgency
+    /// Управляет жизненным циклом WPF-приложения
+    /// Точка входа определена в App.xaml (StartupUri="LoginWindow.xaml")
     /// </summary>
     public partial class App : Application
     {

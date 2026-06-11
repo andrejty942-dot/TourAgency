@@ -6,14 +6,35 @@ using TourAgency.Models;
 
 namespace TourAgency
 {
+    /// <summary>
+    /// Окно добавления нового тура
+    /// Содержит форму с валидацией всех полей
+    /// Проверяет ограничения: длину текста, максимальные значения, обязательность полей
+    /// </summary>
     public partial class AddTourWindow : Window
     {
+        /// <summary>
+        /// Новый тур, создаваемый в этом окне
+        /// Передается обратно в MainWindow при успешном добавлении
+        /// </summary>
         public Tour NewTour { get; set; }
         
+        /// <summary>
+        /// Конструктор окна добавления тура
+        /// Инициализирует компоненты интерфейса
+        /// </summary>
         public AddTourWindow()
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Добавить"
+        /// Выполняет полную валидацию всех полей и создает объект Tour
+        /// Включает try-catch для обработки исключений (исправление BUG-002)
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnAddClick(object sender, RoutedEventArgs e)
         {
             try
@@ -117,12 +138,25 @@ namespace TourAgency
                 MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// Обработчик кнопки "Отмена"
+        /// Закрывает окно без сохранения данных
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
         private void BtnCancelClick(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             Close();
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия тура (макс. 200 символов)
+        /// Вызывается при вводе текста в поле TxtName
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void NameLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtName.Text.Length >= 200)
@@ -132,6 +166,12 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия страны (макс. 100 символов)
+        /// Вызывается при вводе текста в поле TxtCountry
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void CountryLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtCountry.Text.Length >= 100)
@@ -141,6 +181,12 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия города (макс. 100 символов)
+        /// Вызывается при вводе текста в поле TxtCity
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void CityLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtCity.Text.Length >= 100)
@@ -150,6 +196,12 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Проверка ограничения длины названия гостиницы (макс. 200 символов)
+        /// Вызывается при вводе текста в поле TxtHotel
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события ввода текста</param>
         private void HotelLength(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             if (TxtHotel.Text.Length >= 200)
@@ -159,6 +211,13 @@ namespace TourAgency
             }
         }
 
+        /// <summary>
+        /// Сброс красной подсветки поля при начале редактирования
+        /// Восстанавливает стандартный цвет фона и рамки
+        /// Вызывается автоматически при изменении текста в любом поле
+        /// </summary>
+        /// <param name="sender">Источник события (TextBox)</param>
+        /// <param name="e">Аргументы события изменения текста</param>
         private void ResetFieldColor(object sender, TextChangedEventArgs e)
         {
             var textBox = (TextBox)sender;
