@@ -7,7 +7,7 @@ namespace TourAgency.Models
         public int Id { get; set; }
         public string ClientFio { get; set; }
         public int TourId { get; set; }
-        public string TourName { get; set; }
+        public Tour TourName { get; set; }
         public int PeopleCount { get; set; }
         public DateTime DepartureDate { get; set; }
         public decimal TotalPrice { get; set; }
@@ -17,7 +17,6 @@ namespace TourAgency.Models
         public Booking()
         {
             ClientFio = string.Empty;
-            TourName = string.Empty;
             Status = "Новое";
             Phone = string.Empty;
             Email = string.Empty;

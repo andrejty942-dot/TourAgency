@@ -8,8 +8,7 @@
         Title="Добавление тура" 
         Height="500" Width="380"
         MinHeight="400" MinWidth="350" 
-        WindowStartupLocation="CenterScreen" 
-        Loaded="Loadedwin">
+        WindowStartupLocation="CenterScreen">
     <Grid Margin="25">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

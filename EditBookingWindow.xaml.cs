@@ -66,16 +66,6 @@ namespace TourAgency
                 bool hasErrors = false;
                 string errorMessage = "";
 
-                // Сброс цветов всех полей
-            TxtClientFio.Background = new SolidColorBrush(Colors.White);
-            TxtClientFio.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtPeopleCount.Background = new SolidColorBrush(Colors.White);
-            TxtPeopleCount.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtPhone.Background = new SolidColorBrush(Colors.White);
-            TxtPhone.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtEmail.Background = new SolidColorBrush(Colors.White);
-            TxtEmail.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-
             // Проверка ФИО
             if (string.IsNullOrWhiteSpace(TxtClientFio.Text))
             {
@@ -173,7 +163,7 @@ namespace TourAgency
             var statusItem = (ComboBoxItem)CmbStatus.SelectedItem;
             EditedBooking.ClientFio = TxtClientFio.Text.Trim();
             EditedBooking.TourId = selectedTour.Id;
-            EditedBooking.TourName = selectedTour.Name;
+            EditedBooking.TourName = selectedTour;
             EditedBooking.PeopleCount = peopleCount;
             EditedBooking.DepartureDate = DpDepartureDate.SelectedDate.Value;
             EditedBooking.TotalPrice = selectedTour.Price * peopleCount;
@@ -222,9 +212,11 @@ namespace TourAgency
 
         private void ResetFieldColor(object sender, TextChangedEventArgs e)
         {
+            var selectedTour = (Tour)CmbTour.SelectedItem;
             var textBox = (TextBox)sender;
             textBox.Background = new SolidColorBrush(Colors.White);
             textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
+
         }
     }
 }

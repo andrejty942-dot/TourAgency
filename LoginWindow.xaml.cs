@@ -29,6 +29,7 @@ namespace TourAgency
             if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Введите логин и пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+
                 return;
             }
             
@@ -40,6 +41,7 @@ namespace TourAgency
             }
             else
             {
+                Name.Text = string.Empty; Password.Password = string.Empty;
                 MessageBox.Show("Неверный логин или пароль", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

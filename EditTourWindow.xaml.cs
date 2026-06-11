@@ -30,21 +30,6 @@ namespace TourAgency
             {
                 bool hasErrors = false;
                 string errorMessage = "";
-
-                // Сброс цветов всех полей
-            TxtName.Background = new SolidColorBrush(Colors.White);
-            TxtName.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtCountry.Background = new SolidColorBrush(Colors.White);
-            TxtCountry.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtCity.Background = new SolidColorBrush(Colors.White);
-            TxtCity.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtDuration.Background = new SolidColorBrush(Colors.White);
-            TxtDuration.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtPrice.Background = new SolidColorBrush(Colors.White);
-            TxtPrice.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtHotel.Background = new SolidColorBrush(Colors.White);
-            TxtHotel.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-
             // Проверка названия
             if (string.IsNullOrWhiteSpace(TxtName.Text))
             {

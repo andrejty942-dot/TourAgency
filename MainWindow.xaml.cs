@@ -163,5 +163,30 @@ namespace TourAgency
             DgBookings.Items.Refresh();
             MessageBox.Show($"Список бронирований обновлён. Всего бронирований: {_bookings.Count}", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+
+        private void BtnEditTourClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var selectedTour = DgTours.SelectedItem as Tour;
+            var editWindow = new EditTourWindow(selectedTour);
+            if (editWindow.ShowDialog() == true)
+            {
+                DgTours.Items.Refresh();
+                MessageBox.Show($"Тур \"{selectedTour.Name}\" успешно обновлён!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+
+
+        private void EditDoubleclick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var selectedBooking = DgBookings.SelectedItem as Booking;
+            var editWindow = new EditBookingWindow(selectedBooking, _tours.ToList());
+            if (editWindow.ShowDialog() == true)
+            {
+                DgBookings.Items.Refresh();
+                MessageBox.Show($"Бронирование для \"{selectedBooking.ClientFio}\" успешно обновлено!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
     }
 }

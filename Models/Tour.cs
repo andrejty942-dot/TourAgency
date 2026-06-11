@@ -18,7 +18,10 @@ namespace TourAgency.Models
             Country = string.Empty;
             City = string.Empty;
             Hotel = string.Empty;
-
+        }
+        public override string ToString()
+        {
+            return $"{Name}";
         }
     }
 }

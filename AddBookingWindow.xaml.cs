@@ -13,11 +13,10 @@ namespace TourAgency
     public partial class AddBookingWindow : Window
     {
         public Booking NewBooking { get; private set; }
-        private ObservableCollection<Tour> _tours;
-        public AddBookingWindow(ObservableCollection<Tour> tours)
+        public AddBookingWindow(ObservableCollection<Tour> _tours)
         {
             InitializeComponent();
-            _tours = tours;
+
             CmbTour.ItemsSource = _tours;
             DpDepartureDate.SelectedDate = DateTime.Now.AddDays(7);
         }
@@ -27,16 +26,6 @@ namespace TourAgency
             {
                 bool hasErrors = false;
                 string errorMessage = "";
-
-                // Сброс цветов всех полей
-            TxtClientFio.Background = new SolidColorBrush(Colors.White);
-            TxtClientFio.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtPeopleCount.Background = new SolidColorBrush(Colors.White);
-            TxtPeopleCount.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtPhone.Background = new SolidColorBrush(Colors.White);
-            TxtPhone.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
-            TxtEmail.Background = new SolidColorBrush(Colors.White);
-            TxtEmail.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));
 
             // Проверка ФИО
             if (string.IsNullOrWhiteSpace(TxtClientFio.Text))
@@ -137,7 +126,7 @@ namespace TourAgency
             {
                 ClientFio = TxtClientFio.Text.Trim(),
                 TourId = selectedTour.Id,
-                TourName = selectedTour.Name,
+                TourName = selectedTour,
                 PeopleCount = peopleCount,
                 DepartureDate = DpDepartureDate.SelectedDate.Value,
                 TotalPrice = selectedTour.Price * peopleCount,
@@ -188,6 +177,7 @@ namespace TourAgency
 
         private void ResetFieldColor(object sender, TextChangedEventArgs e)
         {
+            var selectedTour = (Tour)CmbTour.SelectedItem;
             var textBox = (TextBox)sender;
             textBox.Background = new SolidColorBrush(Colors.White);
             textBox.BorderBrush = new SolidColorBrush(Color.FromRgb(171, 173, 179));

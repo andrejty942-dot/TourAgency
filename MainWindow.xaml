@@ -23,7 +23,7 @@
                         <Button Name="BtnDeleteTour" Content="Удалить" Margin="0,0,8,0" Click="BtnDeleteTourClick"/>
                         <Button Name="BtnRefreshTours" Content="Обновить" Style="{StaticResource SecondaryButton}" Click="BtnRefreshToursClick"/>
                     </StackPanel>
-                    <DataGrid Name="DgTours" Grid.Row="1" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid Name="DgTours" Grid.Row="1" IsReadOnly="True" SelectionMode="Single" MouseDoubleClick="BtnEditTourClick" >
                         <DataGrid.Columns>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -41,7 +41,7 @@
                         <Button Name="BtnDeleteBooking" Content="Удалить" Margin="0,0,8,0" Click="BtnDeleteBookingClick"/>
                         <Button Name="BtnRefreshBookings" Content="Обновить" Style="{StaticResource SecondaryButton}" Click="BtnRefreshBookingsClick"/>
                     </StackPanel>
-                    <DataGrid Name="DgBookings" Grid.Row="1" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid Name="DgBookings" Grid.Row="1" IsReadOnly="True" SelectionMode="Single" MouseDoubleClick="EditDoubleclick">
                         <DataGrid.Columns>
                         </DataGrid.Columns>
                     </DataGrid>
